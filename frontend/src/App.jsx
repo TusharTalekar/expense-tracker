@@ -7,13 +7,14 @@ import SignUp from "./pages/Auth/SignUp";
 import Home from "./pages/Dashboard/Home";
 import Income from "./pages/Dashboard/Income";
 import Expense from "./pages/Dashboard/Expense";
+import UserProvider from "./context/userContext";
 
 
 
 
 const App = () => {
   return (
-    <div >
+    <UserProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Root />} />
@@ -24,7 +25,7 @@ const App = () => {
           <Route path="/expense" exact element={<Expense />} />
         </Routes>
       </Router>
-    </div>
+    </UserProvider>
   )
 }
 

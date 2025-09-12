@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axiosinstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import { UserContext } from "../../context/UserContext";
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+  const { updateUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -26,6 +31,29 @@ const Login = () => {
     setError("");
 
     // Login API 
+    try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      if (err.response && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Something went wrong ,Please try again !");
+      }
+    }
+
+
+
   }
 
   return (
@@ -43,7 +71,7 @@ const Login = () => {
             label="Email Address"
             placeholder="john@example.com"
             type="text"
-            // autoComplete="off"
+          // autoComplete="off"
           />
 
           <Input
@@ -52,7 +80,7 @@ const Login = () => {
             label="Password"
             placeholder="Min 8 characters"
             type="password"
-            // autoComplete="off"
+          // autoComplete="off"
           />
 
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
