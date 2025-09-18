@@ -35,16 +35,14 @@ const SignUp = () => {
       return;
     }
     if (!password) {
-      setError("Please enter passwprd");
+      setError("Please enter password");
       return;
     }
     setError("");
 
-
-    // sign up api calls 
+    // sign up api calls
     try {
-
-      // upload image if present 
+      // upload image if present
       if (profilePic) {
         const ImgUploadRes = await uploadImage(profilePic);
         profileImageUrl = ImgUploadRes.imageUrl || "";
@@ -53,7 +51,8 @@ const SignUp = () => {
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
         fullName,
         email,
-        password
+        password,
+        profileImageUrl, // Pass the profileImageUrl to the registration endpoint
       });
 
       const { token, user } = response.data;
@@ -65,15 +64,13 @@ const SignUp = () => {
 
       }
     } catch (err) {
-
-    } if (err.response && err.response.data.message) {
-      setError(err.response.data.message);
-    } else {
-      setError("Something went wrong, Please try again !");
+      if (err.response && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Something went wrong, Please try again !");
+      }
     }
-
-  }
-
+  };
 
   return (
     <AuthLayout>
@@ -118,23 +115,22 @@ const SignUp = () => {
 
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
-          <button
-            type="submit"
-            className="btn-primary">
+          <button type="submit" className="btn-primary">
             Sign Up
           </button>
 
           <p className="text-[13px] text-slate-800 mt-3">
             Already have an account?{" "}
             <Link
-              className="font-medium text-primary underline"
-              to="/login"
-            >Login</Link>
+             className="font-medium text-primary underline" 
+            to="/login">
+              Login
+            </Link>
           </p>
         </form>
       </div>
     </AuthLayout>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
