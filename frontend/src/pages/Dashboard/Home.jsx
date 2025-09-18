@@ -4,6 +4,10 @@ import { useUserAuth } from '../../hooks/useUserAuth'
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosinstance';
 import { API_PATHS } from '../../utils/apiPaths';
+import { IoMdCard } from "react-icons/io";
+import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
+import InfoCard from '../../components/Cards/InfoCard';
+import { addThousandsSeparator } from '../../utils/helper';
 
 const Home = () => {
   useUserAuth();
@@ -40,7 +44,28 @@ const Home = () => {
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className="my-5 mx-auto">
-        Home
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <InfoCard
+            icon={<IoMdCard />}
+            label="Total Balance"
+            value={addThousandsSeparator(dashboardData?.totalBalance || 0)}
+            color="bg-primary"
+          />
+
+          <InfoCard
+            icon={<LuWalletMinimal/>}
+            label="Total Income"
+            value={addThousandsSeparator(dashboardData?.totalIncome || 0)}
+            color="bg-orange-500"
+          />
+
+          <InfoCard
+            icon={<LuHandCoins />}
+            label="Total Expense"
+            value={addThousandsSeparator(dashboardData?.totalExpense || 0)}
+            color="bg-red-500"
+          />
+        </div>
       </div>
     </DashboardLayout>
   )
