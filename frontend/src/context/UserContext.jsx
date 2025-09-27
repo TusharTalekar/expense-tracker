@@ -25,8 +25,8 @@ const UserProvider = ({ children }) => {
                 console.error("Failed to fetch user data:", err);
                 // Clear the token if fetching the user fails,
                 // as the token might be invalid or expired.
-                localStorage.clear();
-                clearUser();
+                // localStorage.clear();
+                // clearUser();
             }
         };
 
