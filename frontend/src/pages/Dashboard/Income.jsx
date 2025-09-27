@@ -8,8 +8,11 @@ import Modal from '../../components/Modal';
 import AddIncomeForm from '../../components/Income/AddIncomeForm';
 import toast from 'react-hot-toast';
 import IncomeList from '../../components/Income/IncomeList';
+import { useUserAuth } from "../../hooks/useUserAuth";
 
 const Income = () => {
+  useUserAuth();
+
   const [openAddIncomeModal, setOpenAddIncomeModal] = useState(false);
 
   const [incomeData, setIncomeData] = useState([]);
