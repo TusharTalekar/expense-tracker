@@ -25,7 +25,7 @@ app.use(express.json());
 connectDB();
 
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to the Expense Tracker API! Server is operational." });
+    res.send("Welcome to the Expense Tracker API");
 });
 
 app.use("/api/v1/auth", authRoutes);
