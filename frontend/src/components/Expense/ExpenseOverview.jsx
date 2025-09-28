@@ -32,7 +32,6 @@ const ExpenseOverview = ({ transactions, onExpenseIncome }) => {
                 </button>
             </div>
             <div className="mt-10">
-                {console.log(chartData)}
                 <CustomLineChart data={chartData} />
             </div>
         </div>

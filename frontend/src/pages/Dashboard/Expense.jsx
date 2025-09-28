@@ -7,6 +7,8 @@ import ExpenseOverview from "../../components/Expense/ExpenseOverview";
 import AddExpenseForm from "../../components/Expense/AddExpenseForm";
 import Modal, { } from "../../components/Modal";
 import axiosInstance from "../../utils/axiosinstance";
+import ExpenseList from "../../components/Expense/ExpenseList";
+import DeleteAlert from "../../components/DeleteAlert";
 const Expense = () => {
   useUserAuth();
 
@@ -68,6 +70,23 @@ const Expense = () => {
     }
   };
 
+  // delete expense 
+  const deleteExpense = async (id) => {
+    try {
+      await axiosInstance.delete(API_PATHS.EXPENSE.DELETE_EXPENSE(id));
+      setOpenDeleteAlert({ show: false, data: null });
+      toast.success("Expense deleted successfully !");
+      fetchExpenseDetails();
+    } catch (err) {
+      console.error("Error deleting expense : ", err.response?.data?.message || err.message);
+
+    }
+  };
+  // handle download 
+  const handleDownloadExpenseDetails = () => {
+
+  }
+
   useEffect(() => {
     fetchExpenseDetails();
     return () => { };
@@ -84,6 +103,16 @@ const Expense = () => {
               onExpenseIncome={() => setOpenAddExpenseModal(true)}
             />
           </div>
+
+          <ExpenseList
+            transactions={expenseData}
+            onDelete={(id) => {
+              setOpenDeleteAlert({ show: true, data: id });
+            }}
+            onDownload={handleDownloadExpenseDetails}
+          />
+
+
         </div>
 
         <Modal
@@ -92,6 +121,19 @@ const Expense = () => {
           title="Add Expense"
         >
           <AddExpenseForm onAddExpense={handleAddExpense} />
+        </Modal>
+
+
+
+        <Modal
+          isOpen={openDeleteAlert.show}
+          onClose={() => setOpenDeleteAlert({ show: false, data: null })}
+          title="Delete expense"
+        >
+          <DeleteAlert
+            content="Are you sure you want to delete this expense detail?"
+            onDelete={() => deleteExpense(openDeleteAlert.data)}
+          />
         </Modal>
       </div>
     </DashboardLayout>
