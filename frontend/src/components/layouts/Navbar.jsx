@@ -17,8 +17,10 @@ const Navbar = ({ activeMenu }) => {
                     <HiOutlineMenu className='text-2xl' />
                 )}
             </button>
-
-            <h2 className='text-lg font-medium text-black'>Expense Tracker</h2>
+            <div >
+                <h2 className='text-2xl font-medium text-black'>FinFlow</h2>
+                <p className='text-xs'>Expense Tracker</p>
+            </div>
 
             {openSideMenu && (
                 <div className="fixed top-[61px] -ml-4 bg-white">
