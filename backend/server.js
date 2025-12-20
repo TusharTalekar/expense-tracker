@@ -43,27 +43,26 @@ const frontendPath = path.join(__dirname, "../frontend/dist");
 // 1. Serve static frontend files
 app.use(express.static(frontendPath));
 // 2. SPA fallback (React / Vue routing)
-app.use((req, res, next) => {
-    if (req.path.startsWith("/api")) {
-        return next();
+app.use((req, res) => {
+    if (!req.path.startsWith("/api")) {
+        res.sendFile(path.join(frontendPath, "index.html"), (err) => {
+            if (err) {
+                console.error("Error serving index.html:", err);
+                if (!res.headersSent) {
+                    res.status(500).send("Server Error");
+                }
+            }
+        });
     }
 
-    res.sendFile(path.join(frontendPath, "index.html"), (err) => {
-        if (err) {
-            console.error("Error serving index.html:", err);
-            if (!res.headersSent) {
-                res.status(500).send("Server Error");
-            }
-        }
-    });
 });
 
 // -------------------- API 404 Handler --------------------
-app.use((req, res) => {
-    if (req.path.startsWith("/api")) {
-        res.status(404).json({ message: "API endpoint not found" });
-    }
-});
+// app.use((req, res) => {
+//     if (!req.path.startsWith("/api")) {
+//         res.status(404).json({ message: "API endpoint not found" });
+//     }
+// });
 
 // -------------------- Global Error Handler --------------------
 app.use((err, req, res, next) => {
