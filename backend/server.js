@@ -58,11 +58,11 @@ app.use((req, res) => {
 });
 
 // -------------------- API 404 Handler --------------------
-app.use((req, res) => {
-    if (req.path.startsWith("/api")) {
-        res.status(404).json({ message: "API endpoint for expense tracker" });
-    }
-});
+// app.use((req, res) => {
+//     if (req.path.startsWith("/api")) {
+//         res.status(404).json({ message: "API endpoint for expense tracker" });
+//     }
+// });
 
 // -------------------- Global Error Handler --------------------
 app.use((err, req, res, next) => {
