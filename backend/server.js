@@ -28,6 +28,9 @@ connectDB();
 app.get("/", (req, res) => {
     res.send("Welcome to the Expense Tracker API");
 });
+app.get("/api", (req, res) => {
+    res.send("Expense Tracker API");
+});
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
@@ -38,7 +41,7 @@ app.use("/api/upload-image", uploadRoutes);
 // uploads folder 
 // app.use('/uploads', express.static(path.join(__dirname, "uploads")))
 
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = app; 
