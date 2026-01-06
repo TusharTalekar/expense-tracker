@@ -1,4 +1,4 @@
-export const BASE_URL = import.meta.env.VITE_BASE_URL || 'https://finflow-exp.vercel.app';
+export const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 // utils/authPath 
 export const API_PATHS = {
@@ -11,18 +11,18 @@ export const API_PATHS = {
         GET_DATA: "/api/v1/dashboard",
     },
     INCOME: {
-        ADD_INCOME: "/api/v1/income/add",
-        GET_ALL_INCOME: "/api/v1/income/get",
-        DELETE_INCOME: (incomeId) => `/api/v1/income/${incomeId}`,
-        DOWNLOAD_INCOME: "/api/v1/income/downloadexcel",
+        ADD_INCOME: "api/v1/income/add",
+        GET_ALL_INCOME: "api/v1/income/get",
+        DELETE_INCOME: (incomeId) => `api/v1/income/${incomeId}`,
+        DOWNLOAD_INCOME: "api/v1/income/downloadexcel",
     },
     EXPENSE: {
-        ADD_EXPENSE: "/api/v1/expense/add",
-        GET_ALL_EXPENSE: "/api/v1/expense/get",
-        DELETE_EXPENSE: (expenseId) => `/api/v1/expense/${expenseId}`,
-        DOWNLOAD_EXPENSE: "/api/v1/expense/downloadexcel",
+        ADD_EXPENSE: "api/v1/expense/add",
+        GET_ALL_EXPENSE: "api/v1/expense/get",
+        DELETE_EXPENSE: (expenseId) => `api/v1/expense/${expenseId}`,
+        DOWNLOAD_EXPENSE: "api/v1/expense/downloadexcel",
     },
     IMAGE: {
-        UPLOAD_IMAGE: "/api/upload-image",
+        UPLOAD_IMAGE: "api/upload-image",
     },
 };
