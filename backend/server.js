@@ -13,24 +13,12 @@ const app = express();
 
 
 // middelware to handle cors
-app.use(
-    cors({
-        origin: process.env.CLIENT_URL || "*",
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    })
-);
+app.use(cors());
 
 app.use(express.json());
 
 connectDB();
 
-app.get("/", (req, res) => {
-    res.send("Welcome to the Expense Tracker API");
-});
-app.get("/api", (req, res) => {
-    res.send("Expense Tracker API");
-});
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
@@ -41,7 +29,21 @@ app.use("/api/upload-image", uploadRoutes);
 // uploads folder 
 // app.use('/uploads', express.static(path.join(__dirname, "uploads")))
 
+const clientPath = path.join(__dirname, "../frontend/dist");
+
+// serve static files
+app.use(express.static(clientPath));
+
+// important for React routing (refresh fix)
+app.get("*", (req, res, next) => {
+    if (req.originalUrl.startsWith("/api") || req.originalUrl.startsWith("/uploads")) {
+        return next();
+    }
+    res.sendFile(path.join(clientPath, "index.html"));
+});
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-module.exports = app; 
+module.exports = app;
