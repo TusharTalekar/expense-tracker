@@ -13,12 +13,22 @@ const app = express();
 
 
 // middelware to handle cors
-app.use(cors());
+app.use(cors({
+    origin: [
+        "*"
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 app.use(express.json());
 
 connectDB();
 
+app.get("/api", (req, res) => {
+    res.send("Expense tracker api");
+});
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
@@ -29,18 +39,19 @@ app.use("/api/upload-image", uploadRoutes);
 // uploads folder 
 // app.use('/uploads', express.static(path.join(__dirname, "uploads")))
 
-const clientPath = path.join(__dirname, "../frontend/dist");
 
-// serve static files
-app.use(express.static(clientPath));
+// const clientPath = path.join(__dirname, "../frontend/dist");
 
-// important for React routing (refresh fix)
-app.get("*", (req, res, next) => {
-    if (req.originalUrl.startsWith("/api") || req.originalUrl.startsWith("/uploads")) {
-        return next();
-    }
-    res.sendFile(path.join(clientPath, "index.html"));
-});
+// // serve static files
+// app.use(express.static(clientPath));
+
+// // important for React routing (refresh fix)
+// app.get("*", (req, res, next) => {
+//     if (req.originalUrl.startsWith("/api") || req.originalUrl.startsWith("/uploads")) {
+//         return next();
+//     }
+//     res.sendFile(path.join(clientPath, "index.html"));
+// });
 
 
 const PORT = process.env.PORT || 5000;
